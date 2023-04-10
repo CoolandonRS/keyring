@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace keyring;
+namespace CoolandonRS.keyring;
 
 /// <summary>
 /// Tool for using RSA Encryption/Decryption
@@ -59,9 +59,9 @@ public class RSAUtil {
     public RSAUtil(KeyType keyType, string pemContents, Encoding? encoding = null) {
         if (keyType == KeyType.Symmetric) throw new InvalidOperationException("RSAUtil does not support symmetric keys");
         // ReSharper disable once LocalVariableHidesMember // Intentional
-        using var provider = new RSACryptoServiceProvider();
+        var provider = new RSACryptoServiceProvider();
         provider.ImportFromPem(pemContents);
-        if (keyType == KeyType.Private && provider.PublicOnly) throw new InvalidOperationException("keyType reported as private; no private key found.");
+        if (keyType == KeyType.Private && provider.PublicOnly) throw new ArgumentException("keyType reported as private; no private key found.");
         this.keyType = keyType;
         this.provider = provider;
         this.encoding = encoding ?? Encoding.UTF8;

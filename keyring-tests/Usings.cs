@@ -1,2 +1,2 @@
 global using NUnit.Framework;
-global using keyring;
+global using CoolandonRS.keyring;

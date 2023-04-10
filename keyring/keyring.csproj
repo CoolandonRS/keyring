@@ -4,6 +4,14 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Keyring</Title>
+        <Authors>CoolandonRS</Authors>
+        <Description>C# Library for managing authentication and encryption</Description>
+        <RepositoryUrl>https://github.com/CoolandonRS/keyring</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <RootNamespace>CoolandonRS.keyring</RootNamespace>
+        <PackageId>CoolandonRS.keyring</PackageId>
     </PropertyGroup>
 
 </Project>

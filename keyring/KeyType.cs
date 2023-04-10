@@ -1,8 +1,7 @@
-﻿namespace keyring; 
+﻿namespace CoolandonRS.keyring; 
 
 /// <summary>
-/// The type of key <br/>
-/// <b>NOTE</b>: Private implies public as well
+/// The type of key
 /// </summary>
 public enum KeyType {
     Public, Private, Symmetric
