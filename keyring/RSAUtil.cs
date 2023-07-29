@@ -1,5 +1,4 @@
-﻿using System.CodeDom.Compiler;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace CoolandonRS.keyring;
@@ -28,7 +27,7 @@ public class RSAUtil : EncryptionUtil {
     /// <param name="encoding">The text encoding to use for strings</param>
     /// <exception cref="InvalidOperationException">If you provide a symmetric key</exception>
     public RSAUtil(KeyType keyType, string pemContents, Encoding? encoding = null) : base(keyType, encoding) {
-        if (keyType == KeyType.Symmetric) throw new InvalidOperationException("RSAUtil does not support symmetric keys");
+        if (keyType == KeyType.Symmetric) throw new KeyTypeException("RSAUtil does not support symmetric keys");
         // ReSharper disable once LocalVariableHidesMember // Intentional
         var provider = new RSACryptoServiceProvider();
         provider.ImportFromPem(pemContents);

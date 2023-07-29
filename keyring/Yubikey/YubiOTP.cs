@@ -1,9 +1,5 @@
-﻿using System.Buffers.Text;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.JavaScript;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 
 namespace CoolandonRS.keyring.Yubikey; 
 
@@ -53,7 +49,14 @@ public static class YubiOTP {
     /// <returns>True if the otp is valid (and authorized). False if the otp is valid (and unauthorized). Throws on an invalid otp (YubicoErrorException or DiscrepancyException)</returns>
     public static async Task<bool> Verify(string otp, (string id, string key) api, string[]? ids = null, bool factoryOnly = false) {
         if (otp.Length is < 32 or > 48) throw new YubicoErrorException(YubicoApiStatus.BAD_OTP);
-        if (factoryOnly && otp[..2] != "cc") return false;
+        switch (otp[..2]) {
+            case "cc":
+                break;
+            case "vv" when !factoryOnly:
+                break;
+            default:
+                return false;
+        }
         var nonce = BuildNonce();
         var request = $"id={api.id}&nonce={nonce}&otp={otp}";
         var hash = HMACSHA1.HashData(Convert.FromBase64String(api.key), Encoding.UTF8.GetBytes(request));
