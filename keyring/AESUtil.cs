@@ -12,15 +12,28 @@ public class AESUtil : EncryptionUtil {
     
     public override byte[] Encrypt(byte[] b) {
         lock (@lock) {
-            DeriveIV();
-            return aes.EncryptCbc(b, aes.IV);
+            try {
+                DeriveIV();
+                return aes.EncryptCbc(b, aes.IV);
+            } catch {
+                // On error revert interaction modifier, then pass along the exception.
+                // We should be able to assume this is necessary, as the effective first line of code in this block is `interactionCount++`
+                interactionCount--;
+                throw;
+            }
         }
     }
 
     public override byte[] Decrypt(byte[] b) {
         lock (@lock) {
-            DeriveIV();
-            return aes.DecryptCbc(b, aes.IV);
+            try {
+                DeriveIV();
+                return aes.DecryptCbc(b, aes.IV);
+            } catch {
+                // see comments in Encrypt
+                interactionCount--;
+                throw;
+            }
         }
     }
 
